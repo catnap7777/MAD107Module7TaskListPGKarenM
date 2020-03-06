@@ -67,17 +67,26 @@ func tasksForToday(maxTasks: Int, sortArray: ([(task: String, priority: Int)]) -
     var count = 1
     var done = sortArray(kamTaskList)
     //print(done)
-    print("   Number of tasks printed: \(maxTasks) out of \(done.count)")    //"\(maxTasks)")
+    
+    var maxNbr = maxTasks
+    
+    if maxNbr <= done.count {
+        //
+    } else {
+        maxNbr = done.count
+    }
+    
+    print("   Number of tasks printed: \(maxNbr) out of \(done.count)")    //"\(maxTasks)")
     print("\n Priority             Task      ")
     print(" --------       ----------------")
 
     //for item in kamArray {
-    for item in done where (count <= maxTasks && maxTasks <= done.count) {
+    for item in done where (count <= maxNbr && maxNbr <= done.count) {
         print("    \(item.priority)    \t\t\(item.task)")
         count += 1
     }
 }
 
-tasksForToday(maxTasks: 7, sortArray: sortClosure1)
+tasksForToday(maxTasks: 12, sortArray: sortClosure1)
 
 

@@ -16,6 +16,7 @@ var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priorit
 ]
 
 
+
 //.. closure
 var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
     

@@ -8,7 +8,7 @@ var str = "Hello, playground"
 
 typealias myTupleArray = [(task: String, priority: Int)] //..array of tuples
 
-//var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priority: 7),
+//old ---> var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priority: 7),
 var kamTaskList: myTupleArray = [
                                 (task: "Do laundry", priority: 7),
                                 (task: "Walk Dog", priority: 1),
@@ -27,9 +27,9 @@ var kamTaskList: myTupleArray = [
                                 (task: "Work on Mom's income taxes", priority: 6)
 ]
 
-//.. Closure used as input parameter for function
-//var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
-var sortClosure1 = { ([(task: String, priority: Int)]) -> myTupleArray in
+//.. Closure used as input parameter for function.. sorts on first priority and then on task
+//old ---> var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
+var sortClosure1 = {(forPriority: Int, [(task: String, priority: Int)]) -> myTupleArray in
     
     //.. sort using ternary operator on priority then task;
     //..     Example ***  (boolValue ? valueA : valueB)  *** .ie (boolValue ? true : false)
@@ -83,18 +83,55 @@ var sortClosure1 = { ([(task: String, priority: Int)]) -> myTupleArray in
 //        }
 //    }
     
-
     return kamArray
     
 }
 
+//.. Closure used as input parameter for function.. sorts on first priority and then on task;
+//..    returns array with only the specific forPriority the user requests
+//old---> var sortClosure2 = { (priorityNumber: Int, ([(task: String, priority: Int)]) -> myTupleArray) in
+var sortClosure2 = {(forPriority: Int, [(task: String, priority: Int)]) -> myTupleArray in
+    
+    var kamArray2: myTupleArray = ([])
+    
+    let tempArray2 = kamTaskList.sorted(by: { $0.1 != $1.1 ? $0.1 < $1.1 : $0.0 < $1.0 })
+    
+    //..build the "new" array with only the tasks from the input priority (forPriority)
+    for item in tempArray2 where item.priority == forPriority {
+        kamArray2.append(item)
+    }
+    
+    //.. for testing purposes
+    print("\t*** Derived task data based on user input parameter : \n\t\t\t\(kamArray2)\n")
+    
+    if forPriority == 0 {     //.. in function, this was set to zero if incoming function parameter, forPriorityIn was nil
+        print("\n ***** The priority number was either not specified or was 0... Try again... *****\n")
+    } else {
+        print("\n The priority number for the tasks being printed is: \(forPriority)\n")
+    }
+    
+    return kamArray2
+    
+}
+    
+
 //Function that takes an integer and a closure as it's input parameters
-//func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)])) {
-func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> myTupleArray) {
+//old ---> func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)])) {
+func tasksForToday(maxTasks: Int, forPriorityIn: Int?, sortClosure: (_ forPriority: Int, [(task: String, priority: Int)]) -> myTupleArray) {
     
     var count = 1
-    //.. "activate" closure
-    let doneArray = sortClosure(kamTaskList)
+    
+    var kamPriority: Int?
+    kamPriority = forPriorityIn
+    
+    if kamPriority != nil {
+        //... not null
+    } else {
+        //.. was nil; set to 0 now
+        kamPriority = 0
+    }
+    
+    let doneArray = sortClosure(kamPriority!, kamTaskList)
     
     var maxNbr = maxTasks
     
@@ -118,6 +155,26 @@ func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)])
     }
 }
 
-tasksForToday(maxTasks: 17, sortClosure: sortClosure1)
+print("\n.........................................................................................................\n")
+print("Executes the function tasksForToday using sortClosure1 and returns a list of the first \"n\" items regardless of the priority number: ")
+print("\tFunction called via --> tasksForToday(maxTasks: 5, forPriorityIn: nil, sortClosure: sortClosure1)\n")
+//.. test sortClosure1 to print out a set number of tasks regardless of the priority
+tasksForToday(maxTasks: 5, forPriorityIn: nil, sortClosure: sortClosure1)
+
+print("\n.........................................................................................................\n")
+print("Executes the function taskForToday using sortClosure2 and returns only those priorities that are number \"n\" from user input: ")
+print("\tFunction called via --> tasksForToday(maxTasks: 10, forPriorityIn: 1, sortClosure: sortClosure2)\n")
+//.. test sortClosure2 to print out specific priority tasks
+tasksForToday(maxTasks: 10, forPriorityIn: 1, sortClosure: sortClosure2)
+
+print("\n.........................................................................................................\n")
+print("Executes the function taskForToday using sortClosure2 where user input for priority number is nil: ")
+print("\tFunction called via --> tasksForToday(maxTasks: 10, forPriorityIn: nil, sortClosure: sortClosure2)\n")
+//.. testing sortClosure2 w nil
+tasksForToday(maxTasks: 10, forPriorityIn: nil, sortClosure: sortClosure2)
+
+print("\n.........................................................................................................\n")
+
+
 
 

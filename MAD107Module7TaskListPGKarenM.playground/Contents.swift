@@ -2,7 +2,10 @@ import Cocoa
 
 var str = "Hello, playground"
 
-var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priority: 7),
+typealias myTupleArray = [(task: String, priority: Int)] //..array of tuples
+
+//var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priority: 7),
+var kamTaskList: myTupleArray =                     [(task: "Do laundry", priority: 7),
                                                     (task: "Walk Dog", priority: 1),
                                                     (task: "Text children", priority: 1),
                                                     (task: "Feed hamsters and clean cages", priority: 1),
@@ -16,12 +19,14 @@ var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priorit
 ]
 
 
+
 //.. closure
-var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
+//var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
+var sortClosure1 = { ([(task: String, priority: Int)]) -> myTupleArray in
     
     let kamArray = kamTaskList.sorted(by: {$0.priority < $1.priority })
     
-    
+    //********************************************************************
     //.. EXAMPLE of how to sort on multiple tuple values
     var myArray = [ (1,1,"cat"), (1,2,"dog"), (3,4,"mouse99"), (3,4,"mouse1"), (3,4,"mouse2"), (3,1,"elephant"), (2,1,"hamster"), (2,2,"guinea pig")]
     //myArray.sort{ $0.1 != $1.1 ? $0.1 > $1.1 : $0.0 < $1.0 } //.. use ternary operator -> (boolValue ? valueA : valueB) -> (boolValue ? true : false)
@@ -30,7 +35,7 @@ var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, prior
     print(myArray)
     print("\n")
     //[(1, 1, "cat"), (3, 1, "elephant"), (2, 1, "hamster"), (1, 2, "dog"), (2, 2, "guinea pig"), (3, 4, "mouse1"), (3, 4, "mouse2"), (3, 4, "mouse99")]
-    
+    //********************************************************************
     
     return kamArray
     
@@ -64,7 +69,8 @@ var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, prior
 
 }
 
-func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)])) {
+//func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)])) {
+func tasksForToday(maxTasks: Int, sortClosure: ([(task: String, priority: Int)]) -> myTupleArray) {
     
     var count = 1
     let doneArray = sortClosure(kamTaskList)

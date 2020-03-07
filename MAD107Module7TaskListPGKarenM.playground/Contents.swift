@@ -15,58 +15,18 @@ var kamTaskList: [(task: String, priority: Int)] = [(task: "Do laundry", priorit
                                                     (task: "Work on Mom's taxes", priority: 6)
 ]
 
-//Examples but they do the same
-//*******************************************************
-//var getTask1 = {
-//    (nbr1: Int, nbr2: Int) -> Int in
-//    print("\(nbr1) \(nbr2)")
-//    return 5
-//}
-//
-//var getTask2: (Int, Int) -> Int = {
-//    print("\($0) \($1)")
-//    return 5
-//}
-//
-//var testKam1 = getTask1(3, 7)
-//print("\(testKam1)")
-//
-//var testKam2 = getTask2(3, 7)
-//print("\(testKam2)")
-//*******************************************************
-
-
-//var sortTasks = kamTaskList.sorted(by: { $0.priority < $1.priority})
 
 //.. closure
-//var sortClosure1 = { ([(task: String, priority: Int)]) -> Void in
 var sortClosure1 = { ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)]) in
     
-    //var count = 0
-
     let kamArray = kamTaskList.sorted(by: {$0.priority < $1.priority })
     return kamArray
-
-    //print(kamArray)
-
-//    print("   Number of tasks printed: ")    //"\(maxTasks)")
-//    print("\n Priority             Task      ")
-//    print(" --------       ----------------")
-//
-//    for item in kamArray {
-//        print("    \(item.priority)    \t\t\(item.task)")
-//        //count += 1
-//    }
 }
 
-//func tasksForToday(maxTasks: Int, sortArray: ([(String, Int)]) -> Void) {
 func tasksForToday(maxTasks: Int, sortArray: ([(task: String, priority: Int)]) -> ([(task: String, priority: Int)])) {
-    //print("I am in the function")
     
-    //print(maxTasks)
     var count = 1
-    var done = sortArray(kamTaskList)
-    //print(done)
+    let done = sortArray(kamTaskList)
     
     var maxNbr = maxTasks
     
@@ -80,7 +40,6 @@ func tasksForToday(maxTasks: Int, sortArray: ([(task: String, priority: Int)]) -
     print("\n Priority             Task      ")
     print(" --------       ----------------")
 
-    //for item in kamArray {
     for item in done where (count <= maxNbr && maxNbr <= done.count) {
         print("    \(item.priority)    \t\t\(item.task)")
         count += 1
